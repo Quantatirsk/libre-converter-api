@@ -16,7 +16,7 @@ ENV LC_ALL=C.UTF-8
 FROM base AS fonts
 
 WORKDIR /fonts
-RUN apt-get update && apt-get install -y --no-install-recommends curl unzip \
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl unzip \
     && curl -fsSL -o Fonts.zip https://static.vect.one/resources/Fonts.zip \
     && unzip Fonts.zip \
     && rm Fonts.zip \
@@ -47,11 +47,11 @@ RUN apt-get update \
     && rm -rf /var/cache/apt/archives/*
 
 # Install Chinese fonts
-COPY --from=fonts /fonts/Fonts /usr/share/fonts/truetype/Fonts
+COPY --from=fonts /fonts/zhFonts /usr/share/fonts/truetype/zhFonts
 RUN fc-cache -fv
 
 # Create non-root user
-RUN useradd -m -s /bin/bash -u 1000 converter
+RUN useradd -m -s /bin/bash converter
 WORKDIR /app
 
 # Setup Python virtual environment
