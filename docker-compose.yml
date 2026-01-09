@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  libre-convert-api:
+    image: quantatrisk/libre-converter-api:latest
+    container_name: libre-convert-api
+    ports:
+      - "${API_PORT:-28001}:28001"
+    env_file:
+      - .env
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:28001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
