@@ -4,8 +4,6 @@ services:
     container_name: libre-convert-api
     ports:
       - "${API_PORT:-28001}:28001"
-    env_file:
-      - .env
     restart: unless-stopped
     deploy:
       resources:
